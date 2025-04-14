@@ -6,6 +6,6 @@ const userController = new UserController()
 //Routes
 const userRoutes = Router()
 
-userRoutes.get('/', userController.getUser)
+userRoutes.get('/', userController.getAllUsers)
 
 module.exports = userRoutes
