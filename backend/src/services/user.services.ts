@@ -2,17 +2,13 @@ import { User } from '@/entities/user'
 import { ResourceNotFoundError } from '@/errors/resource-not-found.error'
 import { UserRepository } from '@/repositories/user.repository'
 
-export class UserServices {
+export default class UserServices {
   constructor(private userRepository: UserRepository) {
     // Initialize any properties or dependencies if needed
   }
 
-  async getAllUsers() {
+  async findAll() {
     const users = await this.userRepository.findAll()
-
-    if (!users) {
-      throw new ResourceNotFoundError()
-    }
 
     return { users }
   }

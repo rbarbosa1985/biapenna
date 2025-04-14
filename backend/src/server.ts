@@ -1,16 +1,17 @@
 import { NextFunction, Request, Response } from 'express'
+import { AppError } from './util/AppError'
 
 const express = require('express')
 const app = express()
-// const cors = require('cors')
+const cors = require('cors')
 const routes = require('./routes/routes')
 
 app.use(express.json())
-// app.use(cors())
+app.use(cors())
 app.use(routes)
 
 app.use(
-  (error: any, request: Request, response: Response, next: NextFunction) => {
+  (error: Error, request: Request, response: Response, next: NextFunction) => {
     if (error instanceof AppError) {
       return response.status(error.statusCode).json({
         status: 'error',
