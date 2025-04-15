@@ -1,21 +1,21 @@
 import { prisma } from '@/util/prisma'
 import { UserRepository } from '../user.repository'
-import { User } from '@/entities/user'
+import { Prisma } from 'generated/prisma'
 
 export class PrismaUserRepository implements UserRepository {
-  async create(user: User): Promise<User> {
+  async create(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput> {
     const newUser = await prisma.user.create({
       data: {
-        name: user.getName(),
-        email: user.getEmail(),
-        password: user.getPassword(),
+        name: user.name,
+        email: user.email,
+        password: user.password,
       },
     })
 
     return newUser
   }
 
-  async findUserById(id: string): Promise<User | null> {
+  async findUserById(id: string): Promise<Prisma.UserCreateInput | null> {
     const user = await prisma.user.findUnique({
       where: {
         id,
@@ -25,7 +25,7 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
+  async findUserByEmail(email: string): Promise<Prisma.UserCreateInput | null> {
     const user = await prisma.user.findUnique({
       where: {
         email,
@@ -35,15 +35,15 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  async update(user: User): Promise<User> {
+  async update(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput> {
     const updatedUser = await prisma.user.update({
       where: {
-        id: user.getId(),
+        id: user.id,
       },
       data: {
-        name: user.getName(),
-        email: user.getEmail(),
-        password: user.getPassword(),
+        name: user.name,
+        email: user.email,
+        password: user.password,
       },
     })
 
@@ -58,7 +58,7 @@ export class PrismaUserRepository implements UserRepository {
     })
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<Prisma.UserCreateInput[]> {
     const users = await prisma.user.findMany()
     return users
   }

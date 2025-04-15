@@ -1,9 +1,14 @@
-import type { Review } from '@/entities/review'
+import type { Prisma } from 'generated/prisma'
 
 export interface ReviewRepository {
-  getAllReviews(): Promise<Review[]>
-  getReviewById(id: string): Promise<Review | null>
-  createReview(review: Review): Promise<Review>
-  updateReview(id: string, review: Review): Promise<Review | null>
+  getAllReviews(): Promise<Prisma.ReviewCreateInput[]>
+  getReviewById(id: string): Promise<Prisma.ReviewCreateInput | null>
+  createReview(
+    review: Prisma.ReviewCreateInput,
+  ): Promise<Prisma.ReviewCreateInput>
+  updateReview(
+    id: string,
+    review: Prisma.ReviewCreateInput,
+  ): Promise<Prisma.ReviewCreateInput | null>
   deleteReview(id: string): Promise<void>
 }

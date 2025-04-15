@@ -1,10 +1,10 @@
-import type { User } from '@/entities/user'
+import type { Prisma } from 'generated/prisma'
 
 export interface UserRepository {
-  create(user: User): Promise<User>
-  findUserById(id: string): Promise<User | null>
-  findUserByEmail(email: string): Promise<User | null>
-  update(user: User): Promise<User>
+  create(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput>
+  findUserById(id: string): Promise<Prisma.UserCreateInput | null>
+  findUserByEmail(email: string): Promise<Prisma.UserCreateInput | null>
+  update(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput>
   delete(id: string): Promise<void>
-  findAll(): Promise<User[]>
+  findAll(): Promise<Prisma.UserCreateInput[]>
 }

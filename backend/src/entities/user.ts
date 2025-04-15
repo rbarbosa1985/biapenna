@@ -1,3 +1,6 @@
+import type { Review } from './review'
+import { Roles } from './role'
+
 export class User {
   private id: string
   private name: string
@@ -5,12 +8,14 @@ export class User {
   private password: string
   private createdAt: Date
   private updatedAt: Date
+  private roles: Roles
 
   constructor(id: string, name: string, email: string, password: string) {
     this.id = id
     this.name = name
     this.email = email
     this.password = password
+    this.roles = Roles.MEMBER
     this.createdAt = new Date()
     this.updatedAt = new Date()
   }
@@ -31,6 +36,10 @@ export class User {
     return this.password
   }
 
+  public getRoles(): Roles {
+    return this.roles
+  }
+
   public getCreatedAt(): Date {
     return this.createdAt
   }
@@ -49,5 +58,9 @@ export class User {
 
   public setPassword(password: string): void {
     this.password = password
+  }
+
+  public setRoles(roles: Roles): void {
+    this.roles = roles
   }
 }

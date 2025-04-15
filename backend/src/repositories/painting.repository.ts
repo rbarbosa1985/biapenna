@@ -1,9 +1,14 @@
-import type { Painting } from '@/entities/painting'
+import { Prisma } from 'generated/prisma'
 
-interface PaintingRepository {
-  getAllPaintings(): Promise<Painting[]>
-  getPaintingById(id: string): Promise<Painting | null>
-  createPainting(painting: Painting): Promise<Painting>
-  updatePainting(id: string, painting: Painting): Promise<Painting | null>
+export interface PaintingRepository {
+  getAllPaintings(): Promise<Prisma.PaintingCreateInput[]>
+  getPaintingById(id: string): Promise<Prisma.PaintingCreateInput | null>
+  createPainting(
+    painting: Prisma.PaintingCreateInput,
+  ): Promise<Prisma.PaintingCreateInput>
+  updatePainting(
+    id: string,
+    painting: Prisma.PaintingCreateInput,
+  ): Promise<Prisma.PaintingCreateInput | null>
   deletePainting(id: string): Promise<void>
 }
