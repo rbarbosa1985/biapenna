@@ -6,9 +6,6 @@ class UserController {
 
   async findAll(request: Request, response: Response) {
     const users = await userService.findAll()
-
-    console.log('users' + users)
-
     return response.status(200).json(users)
   }
 

@@ -35,10 +35,13 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  async update(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput> {
+  async update(
+    id: string,
+    user: Prisma.UserCreateInput,
+  ): Promise<Prisma.UserCreateInput> {
     const updatedUser = await prisma.user.update({
       where: {
-        id: user.id,
+        id: id,
       },
       data: {
         name: user.name,

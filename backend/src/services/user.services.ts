@@ -1,6 +1,6 @@
-import { User } from '@/entities/user'
 import { AppError } from '@/errors/AppError'
 import { UserRepository } from '@/repositories/user.repository'
+import type { Prisma } from 'generated/prisma'
 
 export class UserServices {
   constructor(private userRepository: UserRepository) {
@@ -33,22 +33,20 @@ export class UserServices {
     return { user }
   }
 
-  async createUser(userData: User) {
+  async createUser(userData: Prisma.UserCreateInput) {
     const user = await this.userRepository.create(userData)
 
     return { user }
   }
 
-  async updateUser(userId: string, userData: User) {
-    const existingUser = await this.userRepository.findUserByEmail(
-      userData.getEmail(),
-    )
+  async updateUser(userId: string, userData: Prisma.UserCreateInput) {
+    const existingUser = await this.userRepository.findUserById(userId)
 
     if (!existingUser) {
       throw new AppError('Usuário não encontrado', 404)
     }
 
-    const user = await this.userRepository.update(userData)
+    const user = await this.userRepository.update(userId, userData)
 
     return { user }
   }

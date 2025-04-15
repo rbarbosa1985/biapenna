@@ -52,6 +52,7 @@ model Painting {
   technique String?
   year      Int?
   price     Float?
+  dimensions String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   artistId  String
