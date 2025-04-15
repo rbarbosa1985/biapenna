@@ -1,19 +1,13 @@
-import { PrismaUserRepository } from '@/repositories/prisma/prisma-user.repository'
-import UserServices from '@/services/user.services'
+import { makeUserServices } from '@/services/factories/make-user-services'
 import { Request, Response } from 'express'
-
+const userService = makeUserServices()
 class UserController {
-  userService: UserServices
-
-  constructor() {
-    this.userService = new UserServices(new PrismaUserRepository())
-  }
+  constructor() {}
 
   async findAll(request: Request, response: Response) {
-    console.log('findAll')
-    const users = await this.userService.findAll()
+    const users = await userService.findAll()
 
-    console.log(users + 'users')
+    console.log('users' + users)
 
     return response.status(200).json(users)
   }
@@ -21,7 +15,7 @@ class UserController {
   async getUserById(request: Request, response: Response) {
     const userId = request.params.id
 
-    const { user } = await this.userService.getUserById(userId)
+    const { user } = await userService.getUserById(userId)
 
     return response.status(200).json(user)
   }
@@ -29,7 +23,7 @@ class UserController {
   async createUser(request: Request, response: Response) {
     const userData = request.body
 
-    const { user } = await this.userService.createUser(userData)
+    const { user } = await userService.createUser(userData)
 
     return response.status(201).json(user)
   }
@@ -38,7 +32,7 @@ class UserController {
     const userId = request.params.id
     const userData = request.body
 
-    const { user } = await this.userService.updateUser(userId, userData)
+    const { user } = await userService.updateUser(userId, userData)
 
     return response.status(200).json(user)
   }
@@ -46,7 +40,7 @@ class UserController {
   async deleteUser(request: Request, response: Response) {
     const userId = request.params.id
 
-    await this.userService.deleteUser(userId)
+    await userService.deleteUser(userId)
 
     return response.status(204).send()
   }
@@ -54,7 +48,7 @@ class UserController {
   async getUserByEmail(request: Request, response: Response) {
     const email = request.params.email
 
-    const { user } = await this.userService.getUserByEmail(email)
+    const { user } = await userService.getUserByEmail(email)
 
     return response.status(200).json(user)
   }

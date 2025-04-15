@@ -27,5 +27,48 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   roles     Roles @default(MEMBER)
+  reviews   Review[]
 }
 
+model Artist {
+  id        String   @id @default(uuid())
+  name      String
+  biography String?
+  imageUrl  String?
+  instagram String?
+  facebook  String?
+  twitter   String?
+  website   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  paintings Painting[]
+}
+
+model Painting {
+  id        String   @id @default(uuid())
+  title     String
+  description String?
+  imageUrl  String?
+  technique String?
+  year      Int?
+  price     Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  artistId  String
+  artist    Artist   @relation(fields: [artistId], references: [id])
+  reviews   Review[]
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  comment   String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  paintingId String
+  painting  Painting @relation(fields: [paintingId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+    
