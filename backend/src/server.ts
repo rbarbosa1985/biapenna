@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { AppError } from './util/AppError'
+import { AppError } from './errors/AppError'
 
 const express = require('express')
 const app = express()

@@ -1,5 +1,5 @@
 import { User } from '@/entities/user'
-import { ResourceNotFoundError } from '@/errors/resource-not-found.error'
+import { AppError } from '@/errors/AppError'
 import { UserRepository } from '@/repositories/user.repository'
 
 export class UserServices {
@@ -17,7 +17,7 @@ export class UserServices {
     const user = await this.userRepository.findUserByEmail(email)
 
     if (!user) {
-      throw new ResourceNotFoundError()
+      throw new AppError('Usuário não encontrado', 404)
     }
 
     return { user }
@@ -27,7 +27,7 @@ export class UserServices {
     const user = await this.userRepository.findUserById(userId)
 
     if (!user) {
-      throw new ResourceNotFoundError()
+      throw new AppError('Usuário não encontrado', 404)
     }
 
     return { user }
@@ -45,7 +45,7 @@ export class UserServices {
     )
 
     if (!existingUser) {
-      throw new ResourceNotFoundError()
+      throw new AppError('Usuário não encontrado', 404)
     }
 
     const user = await this.userRepository.update(userData)
@@ -56,7 +56,7 @@ export class UserServices {
   async deleteUser(userId: string) {
     const user = await this.userRepository.findUserById(userId)
     if (!user) {
-      throw new ResourceNotFoundError()
+      throw new AppError('Usuário não encontrado', 404)
     }
 
     await this.userRepository.delete(userId)
