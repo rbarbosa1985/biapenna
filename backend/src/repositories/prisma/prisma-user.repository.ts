@@ -1,14 +1,19 @@
 import { prisma } from '@/util/prisma'
 import { UserRepository } from '../user.repository'
 import { Prisma } from 'generated/prisma'
+import { PasswordCrypto } from '@/services/passwordCrypto.services'
 
 export class PrismaUserRepository implements UserRepository {
+  private passwordCrypto: PasswordCrypto = new PasswordCrypto()
+
   async create(user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput> {
+    const hashedPassword = await this.passwordCrypto.hashPassword(user.password)
+
     const newUser = await prisma.user.create({
       data: {
         name: user.name,
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
       },
     })
 
@@ -35,10 +40,9 @@ export class PrismaUserRepository implements UserRepository {
     return user
   }
 
-  async update(
-    id: string,
-    user: Prisma.UserCreateInput,
-  ): Promise<Prisma.UserCreateInput> {
+  async update(id: string, user: Prisma.UserCreateInput): Promise<Prisma.UserCreateInput> {
+    const hashedPassword = await this.passwordCrypto.hashPassword(user.password)
+
     const updatedUser = await prisma.user.update({
       where: {
         id: id,
@@ -46,7 +50,7 @@ export class PrismaUserRepository implements UserRepository {
       data: {
         name: user.name,
         email: user.email,
-        password: user.password,
+        password: hashedPassword,
       },
     })
 

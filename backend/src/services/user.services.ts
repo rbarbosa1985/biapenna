@@ -1,10 +1,13 @@
 import { AppError } from '@/errors/AppError'
 import { UserRepository } from '@/repositories/user.repository'
 import type { Prisma } from 'generated/prisma'
+import { PasswordCrypto } from './passwordCrypto.services'
 
 export class UserServices {
+  private passwordCrypto: PasswordCrypto
   constructor(private userRepository: UserRepository) {
     // Initialize any properties or dependencies if needed
+    this.passwordCrypto = new PasswordCrypto()
   }
 
   async findAll() {
@@ -60,5 +63,21 @@ export class UserServices {
     await this.userRepository.delete(userId)
 
     return { message: `User with ID ${userId} deleted` }
+  }
+
+  async signIn(email: string, password: string) {
+    const user = await this.userRepository.findUserByEmail(email)
+
+    if (!user) {
+      throw new AppError('Email ou senha são inválidos', 401)
+    }
+
+    const isPasswordValid = await this.passwordCrypto.verifyPassword(password, user.password)
+
+    if (!isPasswordValid) {
+      throw new AppError('Email ou senha são inválidos', 401)
+    }
+
+    return { user, accessToken: 'Teste' }
   }
 }

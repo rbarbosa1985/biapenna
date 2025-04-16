@@ -49,6 +49,14 @@ class UserController {
 
     return response.status(200).json(user)
   }
+
+  async signIn(request: Request, response: Response) {
+    const { email, password } = request.body
+
+    const { user, accessToken } = await userService.signIn(email, password)
+
+    return response.status(200).json({ user, accessToken })
+  }
 }
 
 module.exports = UserController
