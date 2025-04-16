@@ -1,3 +1,4 @@
+import type { ArtistDto } from '@/entities/dto/artist.dto'
 import { AppError } from '@/errors/AppError'
 import { ArtistRepository } from '@/repositories/artist.repository'
 import type { Prisma } from 'generated/prisma'
@@ -12,14 +13,14 @@ export class ArtistServices {
     return { artist }
   }
 
-  async getArtistById(artistId: string) {
+  async getArtistById(artistId: string): Promise<ArtistDto | null> {
     const artist = await this.artistRepository.getArtistById(artistId)
 
     if (!artist) {
       throw new AppError('Artista não encontrado')
     }
 
-    return { artist }
+    return artist
   }
 
   async createArtist(artistData: Prisma.ArtistCreateInput) {
@@ -35,10 +36,7 @@ export class ArtistServices {
       throw new AppError('Artista não encontrado')
     }
 
-    const artist = await this.artistRepository.updateArtist(
-      artistId,
-      artistData,
-    )
+    const artist = await this.artistRepository.updateArtist(artistId, artistData)
 
     return { artist }
   }

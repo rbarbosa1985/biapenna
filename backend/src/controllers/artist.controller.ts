@@ -12,7 +12,7 @@ class ArtistController {
   async getArtistById(request: Request, response: Response) {
     const artistId = request.params.id
 
-    const { artist } = await artistService.getArtistById(artistId)
+    const artist = await artistService.getArtistById(artistId)
 
     return response.status(200).json(artist)
   }

@@ -9,20 +9,37 @@ export class PrismaPaintingRepository implements PaintingRepository {
     return paintings
   }
 
-  async getPaintingById(
-    id: string,
-  ): Promise<Prisma.PaintingCreateManyInput | null> {
+  async getPaintingById(id: string) {
     const painting = await prisma.painting.findUnique({
       where: {
         id,
       },
+      include: {
+        reviews: {
+          include: {
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        artist: {
+          select: {
+            name: true,
+          },
+        },
+      },
     })
+
+    if (!painting) {
+      return null
+    }
+
     return painting
   }
 
-  async createPainting(
-    painting: Prisma.PaintingCreateInput,
-  ): Promise<Prisma.PaintingCreateManyInput> {
+  async createPainting(painting: Prisma.PaintingCreateInput): Promise<Prisma.PaintingCreateManyInput> {
     const newPainting = await prisma.painting.create({
       data: painting,
     })

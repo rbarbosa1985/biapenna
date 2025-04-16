@@ -3,6 +3,18 @@ import { Prisma } from 'generated/prisma'
 import { prisma } from '@/util/prisma'
 
 export class PrismaReviewRepository implements ReviewRepository {
+  async getReviewsByUserId(userId: string): Promise<Prisma.ReviewCreateManyInput[]> {
+    const reviews = await prisma.review.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        painting: true,
+      },
+    })
+    return reviews
+  }
+
   async getAllReviews(): Promise<Prisma.ReviewCreateManyInput[]> {
     const reviews = await prisma.review.findMany({
       include: {

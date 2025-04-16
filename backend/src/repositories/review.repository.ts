@@ -6,4 +6,5 @@ export interface ReviewRepository {
   createReview(review: Prisma.ReviewCreateInput): Promise<Prisma.ReviewCreateManyInput>
   updateReview(id: string, review: Prisma.ReviewCreateInput): Promise<Prisma.ReviewCreateManyInput | null>
   deleteReview(id: string): Promise<void>
+  getReviewsByUserId(userId: string): Promise<Prisma.ReviewCreateManyInput[]>
 }
