@@ -1,25 +1,50 @@
-import type { ArtistRepository } from '../artist.repository'
-import type { Prisma } from 'generated/prisma'
+import { ArtistRepository } from '../artist.repository'
+import { Prisma } from 'generated/prisma'
+import { prisma } from '@/util/prisma'
 
 export class PrismaArtistRepository implements ArtistRepository {
-  getAllArtists(): Promise<Prisma.ArtistCreateInput[]> {
-    throw new Error('Method not implemented.')
+  async getAllArtists(): Promise<Prisma.ArtistCreateInput[]> {
+    const artists = await prisma.artist.findMany()
+
+    return artists
   }
-  getArtistById(id: string): Promise<Prisma.ArtistCreateInput | null> {
-    throw new Error('Method not implemented.')
+
+  async getArtistById(id: string): Promise<Prisma.ArtistCreateInput | null> {
+    const artist = await prisma.artist.findUnique({
+      where: {
+        id,
+      },
+    })
+    return artist
   }
-  createArtist(
+
+  async createArtist(
     artist: Prisma.ArtistCreateInput,
   ): Promise<Prisma.ArtistCreateInput> {
-    throw new Error('Method not implemented.')
+    const newArtist = await prisma.artist.create({
+      data: artist,
+    })
+    return newArtist
   }
-  updateArtist(
+
+  async updateArtist(
     id: string,
     artist: Prisma.ArtistCreateInput,
   ): Promise<Prisma.ArtistCreateInput | null> {
-    throw new Error('Method not implemented.')
+    const updatedArtist = await prisma.artist.update({
+      where: {
+        id,
+      },
+      data: artist,
+    })
+    return updatedArtist
   }
-  deleteArtist(id: string): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async deleteArtist(id: string): Promise<void> {
+    await prisma.artist.delete({
+      where: {
+        id,
+      },
+    })
   }
 }

@@ -7,5 +7,9 @@ const paintingController = new PaintingController()
 const paintingRoutes = Router()
 
 paintingRoutes.get('/', paintingController.findAll)
+paintingRoutes.post('/', paintingController.createPainting)
+paintingRoutes.get('/:id', paintingController.getPaintingById)
+paintingRoutes.put('/:id', paintingController.updatePainting)
+paintingRoutes.delete('/:id', paintingController.deletePainting)
 
 module.exports = paintingRoutes

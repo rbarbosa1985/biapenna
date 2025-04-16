@@ -7,5 +7,9 @@ const artistController = new ArtistController()
 const artistRoutes = Router()
 
 artistRoutes.get('/', artistController.findAll)
+artistRoutes.post('/', artistController.createArtist)
+artistRoutes.get('/:id', artistController.getArtistById)
+artistRoutes.put('/:id', artistController.updateArtist)
+artistRoutes.delete('/:id', artistController.deleteArtist)
 
 module.exports = artistRoutes

@@ -1,25 +1,50 @@
 import { ReviewRepository } from '../review.repository'
 import { Prisma } from 'generated/prisma'
+import { prisma } from '@/util/prisma'
 
 export class PrismaReviewRepository implements ReviewRepository {
-  getAllReviews(): Promise<Prisma.ReviewCreateInput[]> {
-    throw new Error('Method not implemented.')
+  async getAllReviews(): Promise<Prisma.ReviewCreateManyInput[]> {
+    const reviews = await prisma.review.findMany({
+      include: {
+        user: true,
+        painting: true,
+      },
+    })
+
+    return reviews
   }
-  getReviewById(id: string): Promise<Prisma.ReviewCreateInput | null> {
-    throw new Error('Method not implemented.')
+
+  async getReviewById(id: string): Promise<Prisma.ReviewCreateManyInput | null> {
+    const review = await prisma.review.findUnique({
+      where: {
+        id,
+      },
+    })
+    return review
   }
-  createReview(
-    review: Prisma.ReviewCreateInput,
-  ): Promise<Prisma.ReviewCreateInput> {
-    throw new Error('Method not implemented.')
+
+  async createReview(review: Prisma.ReviewCreateInput): Promise<Prisma.ReviewCreateManyInput> {
+    const newReview = await prisma.review.create({
+      data: review,
+    })
+    return newReview
   }
-  updateReview(
-    id: string,
-    review: Prisma.ReviewCreateInput,
-  ): Promise<Prisma.ReviewCreateInput | null> {
-    throw new Error('Method not implemented.')
+
+  async updateReview(id: string, review: Prisma.ReviewCreateInput): Promise<Prisma.ReviewCreateManyInput | null> {
+    const updatedReview = await prisma.review.update({
+      where: {
+        id,
+      },
+      data: review,
+    })
+    return updatedReview
   }
-  deleteReview(id: string): Promise<void> {
-    throw new Error('Method not implemented.')
+
+  async deleteReview(id: string): Promise<void> {
+    await prisma.review.delete({
+      where: {
+        id,
+      },
+    })
   }
 }

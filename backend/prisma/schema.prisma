@@ -33,6 +33,7 @@ model User {
 model Artist {
   id        String   @id @default(uuid())
   name      String
+  email     String   @unique
   biography String?
   imageUrl  String?
   instagram String?
