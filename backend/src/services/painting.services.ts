@@ -28,21 +28,14 @@ export class PaintingServices {
     return { painting }
   }
 
-  async updatePainting(
-    paintingId: string,
-    paintingData: Prisma.PaintingCreateInput,
-  ) {
-    const existingPainting =
-      await this.paintingRepository.getPaintingById(paintingId)
+  async updatePainting(paintingId: string, paintingData: Prisma.PaintingCreateInput) {
+    const existingPainting = await this.paintingRepository.getPaintingById(paintingId)
 
     if (!existingPainting) {
       throw new AppError('Obra não encontrado')
     }
 
-    const painting = await this.paintingRepository.updatePainting(
-      paintingId,
-      paintingData,
-    )
+    const painting = await this.paintingRepository.updatePainting(paintingId, paintingData)
 
     return { painting }
   }

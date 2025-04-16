@@ -1,5 +1,5 @@
 import { PrismaReviewRepository } from '@/repositories/prisma/prisma-review.repository'
-import { ReviewServices } from '../review.service'
+import { ReviewServices } from '../review.services'
 
 export function makeReviewServices() {
   const reviewRepository = new PrismaReviewRepository()

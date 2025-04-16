@@ -1,5 +1,5 @@
 import { PrismaPaintingRepository } from '@/repositories/prisma/prisma-painting.repository'
-import { PaintingServices } from '../painting.service'
+import { PaintingServices } from '../painting.services'
 
 export function makePaintingServices() {
   const paintingRepository = new PrismaPaintingRepository()

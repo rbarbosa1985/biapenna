@@ -1,4 +1,4 @@
-import { JWTService, type IJwtData } from '@/services/jwt.service'
+import { JWTService, type IJwtData } from '@/services/jwt.services'
 import type { NextFunction, Request, Response } from 'express'
 
 export async function EnsureAuthenticated(request: Request, response: Response, next: NextFunction) {

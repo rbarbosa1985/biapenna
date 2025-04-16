@@ -1,8 +1,8 @@
 import { AppError } from '@/errors/AppError'
 import { UserRepository } from '@/repositories/user.repository'
 import { Prisma } from 'generated/prisma'
-import { PasswordCrypto } from './passwordCrypto.service'
-import { JWTService } from './jwt.service'
+import { PasswordCrypto } from './passwordCrypto.services'
+import { JWTService } from './jwt.services'
 
 export class UserServices {
   private passwordCrypto: PasswordCrypto
