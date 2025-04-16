@@ -18,16 +18,20 @@ export async function EnsureAuthenticated(request: Request, response: Response, 
     return response.status(401).json({ error: 'Unauthorized' })
   }
 
-  // Check if token is valid
-  const jwtData = await jwtService.verify(token)
+  try {
+    // Check if token is valid
+    const jwtData = await jwtService.verify(token)
 
-  if (jwtData === 'INVALID_TOKEN') {
+    if (jwtData === 'INVALID_TOKEN') {
+      return response.status(401).json({ error: 'Unauthorized' })
+    }
+
+    request.headers.userId = jwtData.id
+
+    return next()
+  } catch (error) {
     return response.status(401).json({ error: 'Unauthorized' })
   }
-
-  request.headers.userId = jwtData.id
-
-  return next()
 }
 
 module.exports = EnsureAuthenticated
