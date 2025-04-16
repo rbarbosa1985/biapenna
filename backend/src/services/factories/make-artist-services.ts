@@ -1,5 +1,5 @@
 import { PrismaArtistRepository } from '@/repositories/prisma/prisma-artist.repository'
-import { ArtistServices } from '../artist.services'
+import { ArtistServices } from '../artist.service'
 
 export function makeArtistServices() {
   const artistRepository = new PrismaArtistRepository()

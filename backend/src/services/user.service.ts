@@ -1,13 +1,17 @@
 import { AppError } from '@/errors/AppError'
 import { UserRepository } from '@/repositories/user.repository'
-import type { Prisma } from 'generated/prisma'
-import { PasswordCrypto } from './passwordCrypto.services'
+import { Prisma } from 'generated/prisma'
+import { PasswordCrypto } from './passwordCrypto.service'
+import { JWTService } from './jwt.service'
 
 export class UserServices {
   private passwordCrypto: PasswordCrypto
+  private jwtService: JWTService
+
   constructor(private userRepository: UserRepository) {
     // Initialize any properties or dependencies if needed
     this.passwordCrypto = new PasswordCrypto()
+    this.jwtService = new JWTService()
   }
 
   async findAll() {
@@ -78,6 +82,19 @@ export class UserServices {
       throw new AppError('Email ou senha são inválidos', 401)
     }
 
-    return { user, accessToken: 'Teste' }
+    const id = user.id
+
+    if (!id) {
+      throw new AppError('ID do usuário não encontrado', 404)
+    }
+    // Generate JWT token
+    const accessToken = this.jwtService.signIn({ id })
+
+    if (!accessToken) {
+      throw new AppError('Erro ao gerar token', 500)
+    }
+    // Return user data and token
+
+    return { accessToken }
   }
 }

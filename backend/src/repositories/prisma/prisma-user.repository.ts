@@ -1,7 +1,7 @@
 import { prisma } from '@/util/prisma'
 import { UserRepository } from '../user.repository'
 import { Prisma } from 'generated/prisma'
-import { PasswordCrypto } from '@/services/passwordCrypto.services'
+import { PasswordCrypto } from '@/services/passwordCrypto.service'
 
 export class PrismaUserRepository implements UserRepository {
   private passwordCrypto: PasswordCrypto = new PasswordCrypto()
