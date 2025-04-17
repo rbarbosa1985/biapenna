@@ -3,6 +3,14 @@ import { UserRepository } from '@/repositories/user.repository'
 import { Prisma } from 'generated/prisma'
 import { PasswordCrypto } from './passwordCrypto.services'
 import { JWTService } from './jwt.services'
+import { prisma } from '@/util/prisma'
+import dayjs from 'dayjs'
+import { response } from 'express'
+
+interface IToken {
+  accessToken: string
+  refreshToken: string
+}
 
 export class UserServices {
   private passwordCrypto: PasswordCrypto
@@ -69,7 +77,7 @@ export class UserServices {
     return { message: `User with ID ${userId} deleted` }
   }
 
-  async signIn(email: string, password: string) {
+  async signIn(email: string, password: string): Promise<IToken> {
     const user = await this.userRepository.findUserByEmail(email)
 
     if (!user) {
@@ -88,13 +96,49 @@ export class UserServices {
       throw new AppError('ID do usuário não encontrado', 404)
     }
     // Generate JWT token
-    const accessToken = this.jwtService.signIn({ id })
+    const accessToken = await this.jwtService.signIn({ id })
+    const refreshToken = await this.jwtService.generateRefreshToken(id)
 
     if (!accessToken) {
       throw new AppError('Erro ao gerar token', 500)
     }
     // Return user data and token
 
-    return { accessToken }
+    return { accessToken, refreshToken }
+  }
+
+  async generateRefreshToken(refresh_token: string): Promise<IToken> {
+    const refreshToken = await prisma.refreshToken.findUnique({
+      where: {
+        refresh_token,
+      },
+    })
+
+    if (!refreshToken) {
+      throw new AppError('Refresh token não encontrado', 401)
+    }
+
+    const token = await this.jwtService.signIn({ id: refreshToken.userId })
+    const refreshTokenExpired = dayjs().isAfter(dayjs.unix(refreshToken.expires_in))
+
+    if (refreshTokenExpired) {
+      await prisma.refreshToken.delete({
+        where: {
+          id: refreshToken.id,
+        },
+      })
+
+      const newRefreshToken = await this.jwtService.generateRefreshToken(refreshToken.userId)
+
+      return {
+        accessToken: token,
+        refreshToken: newRefreshToken,
+      }
+    }
+
+    return {
+      accessToken: token,
+      refreshToken: refresh_token,
+    }
   }
 }

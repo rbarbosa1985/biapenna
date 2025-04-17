@@ -8,7 +8,7 @@ const ensureAuthenticated = require('@/middlewares/ensureAuthenticated')
 //Routes
 const reviewRoutes = Router()
 
-reviewRoutes.get('/', reviewController.findAll)
+reviewRoutes.get('/', ensureAuthenticated, reviewController.findAll)
 reviewRoutes.post('/', ensureAuthenticated, reviewController.createReview)
 reviewRoutes.get('/:id', ensureAuthenticated, reviewController.getReviewById)
 reviewRoutes.put('/:id', ensureAuthenticated, reviewController.updateReview)

@@ -53,9 +53,21 @@ class UserController {
   async signIn(request: Request, response: Response) {
     const { email, password } = request.body
 
-    const { user, accessToken } = await userService.signIn(email, password)
+    const token = await userService.signIn(email, password)
 
-    return response.status(200).json({ user, accessToken })
+    console.log('accessToken', token.accessToken)
+
+    return response.status(201).json({ accessToken: token.accessToken, refreshToken: token.refreshToken })
+  }
+
+  async refreshToken(request: Request, response: Response) {
+    const refreshToken = request.body.refreshToken
+
+    const newAccessToken = await userService.generateRefreshToken(refreshToken)
+
+    return response
+      .status(201)
+      .json({ accessToken: newAccessToken.accessToken, refreshToken: newAccessToken.refreshToken })
   }
 }
 

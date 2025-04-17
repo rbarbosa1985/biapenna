@@ -12,7 +12,9 @@ userRoutes.get('/', userController.findAll)
 userRoutes.post('/', userController.createUser)
 userRoutes.get('/:id', ensureAuthenticated, userController.getUserById)
 userRoutes.put('/:id', ensureAuthenticated, userController.updateUser)
-userRoutes.delete('/:id', ensureAuthenticated, userController.deleteUser)
+userRoutes.delete('/:id', userController.deleteUser)
 userRoutes.get('/email/:email', ensureAuthenticated, userController.getUserByEmail)
+userRoutes.post('/signin', userController.signIn)
+userRoutes.post('/refresh-token', userController.refreshToken)
 
 module.exports = userRoutes
