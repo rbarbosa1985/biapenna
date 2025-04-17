@@ -4,8 +4,7 @@ import { Router } from 'express'
 const PaintingController = require('@/controllers/painting.controller')
 const paintingController = new PaintingController()
 //Middleware
-const EnsureAuthenticated = require('@/middlewares/ensureAuthenticated')
-const ensureAuthenticated = new EnsureAuthenticated()
+const ensureAuthenticated = require('@/middlewares/ensureAuthenticated')
 //Routes
 const paintingRoutes = Router()
 

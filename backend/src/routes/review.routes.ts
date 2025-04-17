@@ -4,8 +4,7 @@ import { Router } from 'express'
 const ReviewController = require('@/controllers/review.controller')
 const reviewController = new ReviewController()
 //Middleware
-const EnsureAuthenticated = require('@/middlewares/ensureAuthenticated')
-const ensureAuthenticated = new EnsureAuthenticated()
+const ensureAuthenticated = require('@/middlewares/ensureAuthenticated')
 //Routes
 const reviewRoutes = Router()
 

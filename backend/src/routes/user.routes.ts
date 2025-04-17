@@ -4,13 +4,12 @@ import { Router } from 'express'
 const UserController = require('@/controllers/user.controller')
 const userController = new UserController()
 //Middleware
-const EnsureAuthenticated = require('@/middlewares/ensureAuthenticated')
-const ensureAuthenticated = new EnsureAuthenticated()
+const ensureAuthenticated = require('@/middlewares/ensureAuthenticated')
 //Routes
 const userRoutes = Router()
 
 userRoutes.get('/', userController.findAll)
-userRoutes.post('/', ensureAuthenticated, userController.createUser)
+userRoutes.post('/', userController.createUser)
 userRoutes.get('/:id', ensureAuthenticated, userController.getUserById)
 userRoutes.put('/:id', ensureAuthenticated, userController.updateUser)
 userRoutes.delete('/:id', ensureAuthenticated, userController.deleteUser)

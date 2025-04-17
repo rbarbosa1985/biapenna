@@ -4,8 +4,7 @@ import { Router } from 'express'
 const ArtistController = require('@/controllers/artist.controller')
 const artistController = new ArtistController()
 //Middleware
-const EnsureAuthenticated = require('@/middlewares/ensureAuthenticated')
-const ensureAuthenticated = new EnsureAuthenticated()
+const ensureAuthenticated = require('@/middlewares/ensureAuthenticated')
 //Routes
 const artistRoutes = Router()
 
