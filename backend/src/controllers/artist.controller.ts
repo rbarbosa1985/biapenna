@@ -1,5 +1,6 @@
 import { makeArtistServices } from '@/services/factories/make-artist-services'
 import { Request, Response } from 'express'
+import { z } from 'zod'
 const artistService = makeArtistServices()
 class ArtistController {
   constructor() {}
@@ -18,7 +19,17 @@ class ArtistController {
   }
 
   async createArtist(request: Request, response: Response) {
-    const artistData = request.body
+    const createArtistBodySchema = z.object({
+      name: z.string(),
+      email: z.string().email(),
+      biography: z.string().nullable(),
+      imageUrl: z.string().nullable(),
+      instagram: z.string().nullable(),
+      facebook: z.string().nullable(),
+      twitter: z.string().nullable(),
+      website: z.string().nullable(),
+    })
+    const artistData = createArtistBodySchema.parse(request.body)
 
     const { artist } = await artistService.createArtist(artistData)
 
@@ -27,7 +38,17 @@ class ArtistController {
 
   async updateArtist(request: Request, response: Response) {
     const artistId = request.params.id
-    const artistData = request.body
+    const createArtistBodySchema = z.object({
+      name: z.string(),
+      email: z.string().email(),
+      biography: z.string().nullable(),
+      imageUrl: z.string().nullable(),
+      instagram: z.string().nullable(),
+      facebook: z.string().nullable(),
+      twitter: z.string().nullable(),
+      website: z.string().nullable(),
+    })
+    const artistData = createArtistBodySchema.parse(request.body)
 
     const { artist } = await artistService.updateArtist(artistId, artistData)
 
