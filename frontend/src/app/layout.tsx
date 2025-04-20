@@ -36,7 +36,7 @@ export default function RootLayout({
           backgroundColor: '#FFF3Df',
         }}
       >
-        <div className="h-screen flex flex-col justify-between">
+        <div className="flex flex-col justify-between">
           <Header />
           <main>{children}</main>
           <Footer />

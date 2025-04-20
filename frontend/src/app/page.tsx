@@ -1,17 +1,9 @@
 import Live1 from '@/assets/home.jpg';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="container grid grid-cols-2 p-4 min-w-full">
-      <div className="p-4 flex flex-col justify-center items-center">
-        <Image
-          src={Live1}
-          alt="BiaPenna"
-          className="rounded-full w-50 h-50 scale-50"
-        />
-      </div>
+    <div className="grid grid-cols-2 p-4 min-w-full">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-4xl font-bold text-center mt-8">
           Bem-vindo ao meu portfólio!
@@ -20,6 +12,13 @@ export default function Home() {
           Aqui você encontrará uma seleção dos meus melhores trabalhos e
           projetos.
         </p>
+      </div>
+      <div className="p-4 flex flex-col justify-center items-center">
+        <Image
+          src={Live1}
+          alt="BiaPenna"
+          className="rounded-full w-50 h-50 scale-50"
+        />
       </div>
     </div>
   );
