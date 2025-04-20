@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Lustria } from 'next/font/google';
 import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -32,14 +34,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${geistLustria} antialiased`}
         style={{
           backgroundColor: '#FFF3Df',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100vh',
-          alignItems: 'center',
-          justifyContent: 'center',
         }}
       >
-        {children}
+        <div className="h-screen flex flex-col justify-between">
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

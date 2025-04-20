@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <div
-      className="flex w-screen flex-row justify-center items-center gap-4 p-4 self-end "
+      className="flex w-screen flex-row justify-center items-center gap-4 p-4"
       style={{ backgroundColor: '#F7D6C5' }}
     >
       <Link href="https://www.instagram.com/biapennabarbosa/">
