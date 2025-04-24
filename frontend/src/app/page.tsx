@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="grid grid-cols-2 p-4 min-w-full">
+    <div className="grid grid-cols-2 h-fit">
       <div className="flex flex-col justify-center items-center">
         <h1 className="text-4xl font-bold text-center mt-8">
           Bem-vindo ao meu portfólio!
@@ -17,7 +17,7 @@ export default function Home() {
         <Image
           src={Live1}
           alt="BiaPenna"
-          className="rounded-full w-50 h-50 scale-50"
+          className="rounded-full scale-[0.6] "
         />
       </div>
     </div>

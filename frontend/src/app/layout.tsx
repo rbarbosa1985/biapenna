@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Lustria } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,11 +35,8 @@ export default function RootLayout({
           backgroundColor: '#FFF3Df',
         }}
       >
-        <div className="flex flex-col justify-between">
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </div>
+        <Header />
+        {children}
       </body>
     </html>
   );
